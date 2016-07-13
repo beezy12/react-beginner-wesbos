@@ -4,7 +4,9 @@ var ReactDOM = require('react-dom')
 var ReactRouter = require('react-router')
 var Router = ReactRouter.Router
 var Route = ReactRouter.Route
-var Navigation = ReactRouter.Navigation
+var Navigation = ReactRouter.Navigation // this actually changed in a React update
+var History = ReactRouter.History
+
 // npm history loads in the required code to be able to do push state (changing the URL without a reload)
 var createBrowserHistory = require('history/lib/createBrowserHistory')
 
@@ -12,7 +14,13 @@ var helpers = require('./helpers.js')
 
 
 
-/*   {} CURLY BRACKETS MEAN JAVASCRIPT
+/*
+    {} CURLY BRACKETS MEAN JAVASCRIPT
+    - 'this' refers to the component that it lives in
+*/
+
+
+
 
 /*
     App
@@ -98,15 +106,34 @@ var Inventory = React.createClass({
     - this code below will let me make <StorePicker />
     - render can only return one thing. like a form or a div but not multiple p tags
     - MUST HAVE self closing tags
+    - preventDefault stops the form from submitting the data and refreshing the page
+    - mixins will always be an array
+    - pushState is when you change the URL
 */
 
 var StorePicker = React.createClass({
+    mixins: [History],
+    goToStore: function(event) {
+        event.preventDefault()
 
+        // get the data (the store id)from the input and then...
+        console.log(this.refs)
+        console.log(this.refs.storeId)
+        var storeId = this.refs.storeId.value
+        console.log(storeId)
+
+        // redirect to the store page
+        // pushState lets you change the URL without refreshing the page
+        // (we got a console error 'cannot read property "pushState" of undefined'. this is because we need to use a mixin)
+        this.history.pushState(null, '/store/' + storeId)
+
+
+    },
     render: function() {
 
     var name = 'beez'
         return (
-            <form className="store-selector">
+            <form className="store-selector" onSubmit={this.goToStore}>
                  {/* this is how you write comments in JSX*/}
                 <h2>Please Enter A Store {name}</h2>
                 <input type="text" ref="storeId" defaultValue={helpers.getFunName()} required />
@@ -158,4 +185,5 @@ var routes = (
 
 
 ReactDOM.render(routes, document.querySelector('#main'))
+
 
