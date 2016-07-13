@@ -5,6 +5,8 @@ var ReactRouter = require('react-router')
 var Router = ReactRouter.Router
 var Route = ReactRouter.Route
 var Navigation = ReactRouter.Navigation
+// npm history loads in the required code to be able to do push state (changing the URL without a reload)
+var createBrowserHistory = require('history/lib/createBrowserHistory')
 
 
 /*
@@ -83,6 +85,8 @@ var Inventory = React.createClass({
 })
 
 
+
+
 /*
     - Store Picker
     - render says "what HTML do you want me to show?"
@@ -109,6 +113,28 @@ var StorePicker = React.createClass({
 })
 
 
+/*
+    Routes
 
-ReactDOM.render(<App/>, document.querySelector('#main'))
+    - if nesting Route, you must close it. but if not you can use a self-closing tag.
+    - :storeId actually makes a variable that we can use.
+
+    - NOTICE*** at the bottom we are no longer rendering <App />, we made this routes variable
+      and are rendering that now. routes has everything we need. or you could just code the routes
+      directly inside the ReactDOM.render
+
+    - all we're doing in single page apps, is updating the URL bar without refreshing.
+    - the reason we have the # in the URL is because older browsers dont support HTML5 'push state'
+    - PUSH STATE allows you to update the URL bar without a reload
+*/
+
+var routes = (
+    <Router history={createBrowserHistory()}>
+        <Route path="/" component={StorePicker} />
+         <Route path="/store/:storeId" component={App} />
+    </Router>
+)
+
+
+ReactDOM.render(routes, document.querySelector('#main'))
 
