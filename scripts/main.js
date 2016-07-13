@@ -14,7 +14,7 @@ var helpers = require('./helpers.js')
 
 /*
     video10 STATE
-    - statet is a representation of all of your components data. it's one big object that holds
+    - state is a representation of all of your components data. it's one big object that holds
       all the information thats related to your component. it's the master copy of all of our data,
       and the HTML is based off of that.
     - ** We don't change the HTML we change the state, and React will update the HTML accordingly. if you have a title, and you change the state of the title, it will change that title everywhere.
@@ -35,9 +35,17 @@ var helpers = require('./helpers.js')
     <App />
     this is the brains of the operation
 
-        - we are going to have two things in our state for this app:
-                .the list of all the different kinds of fish
-                .the order price and quantity
+    - we are going to have two things in our state for this app:
+            .the list of all the different kinds of fish
+            .the order price and quantity
+
+    - getInitialState returns the initial state, which here is the blank fishes and order objects.
+    IT IS PART OF THE REACT LIFECYCLE, WHICH MEANS THAT BEFORE THE COMPONENT IS LOADED, REACT WILL RUN getInitialState AND IT WILL POPULATE ITSELF WITH ANYTHING THAT IS IN THERE
+
+    - then you will need a method that can add fish to the state. addFish method.
+    - we need a unique key for every fish in the fishes object, so we are adding a timestamp. this
+    will also put the newest fish at the top of the list.
+
 */
 
 var App = React.createClass({
@@ -46,6 +54,18 @@ var App = React.createClass({
             fishes: {},
             order: {}
         }
+    },
+    addFish: function(fish) {
+        var timestamp = (new Date()).getTime()
+
+        // update the state object. this.state refers to everything being returned above in getInitialState. this isn't enough for React to re-render, must set the state.
+        this.state.fishes['fish-' + timestamp] = fish
+
+        // set the state. you must pass it an object of what has changed inside the state.
+        // YOU DO NOT want to pass it this.state, because then React would have to go through the entire state object and see what has changed. so you specifically tell it:
+        // {fishes: this.state.fishes}
+        // this IS weird because you tell it to set state and pass it itself. it's for performance
+        this.setState({fishes: this.state.fishes})
     },
     render: function() {
         return (
@@ -249,6 +269,7 @@ var routes = (
 
 
 ReactDOM.render(routes, document.querySelector('#main'))
+
 
 
 
