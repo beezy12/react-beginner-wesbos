@@ -25,7 +25,7 @@ var App = React.createClass({
 
 /*
     Header
-    <Header/>
+    <Header />
 */
 
 var Header = React.createClass({
