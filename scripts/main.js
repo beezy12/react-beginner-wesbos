@@ -74,7 +74,7 @@ var App = React.createClass({
                     <Header tagline="Fresh Seafood Market"/>
                 </div>
                 <Order/>
-                <Inventory/>
+                <Inventory addFish={this.addFish}/>
             </div>
         )
     }
@@ -88,25 +88,33 @@ var App = React.createClass({
 
 var AddFishForm = React.createClass({
     createFish: function(event) {
-    // 1. stop the form from auto-submitting
-        event.preventDefault()
+        // 1. stop the form from auto-submitting
+            event.preventDefault()
 
-    // 2. get the data from the form and create an object
-        var fish = {
-            name: this.refs.name.value,
-            price: this.refs.price.value,
-            status: this.refs.status.value,
-            desc: this.refs.description.value,
-            image: this.refs.image.value
-        }
-            console.log(fish)
+        // 2. get the data from the form and create an object
+            var fish = {
+                name: this.refs.name.value,
+                price: this.refs.price.value,
+                status: this.refs.status.value,
+                desc: this.refs.description.value,
+                image: this.refs.image.value
+            }
+                console.log(fish)
 
-    // 3. add the fish to the App State (we're not worried about the fish state)
 
+        // 3. add the fish to the App State (we're not worried about the fish state)
+
+        // look at dev tools. the method addFish lives in App, which is the parent. so we must pass it
+        // down from App to Inventory, and then from Inventory to AddFishForm. (Inventory is the     parent of AddFishForm).
+        // you'll see in App we add this method to Inventory, and then used a spread to get it to <AddFishForm /> in Inventory
+        // this was the last step. enter some info in the website, check React dev tools, click down to App, click on it and see the states to the right. you can see your fish. check Inventory in dev tools to see the prop addFish function.
+        this.props.addFish(fish)
+        this.refs.fishForm.reset // clears the form after submission
     },
+
     render: function() {
         return (
-            <form className="fish-edit" onSubmit={this.createFish}>
+            <form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
                 <input type="text" ref="name" placeholder="Fish Name" />
                 <input type="text" ref="price" placeholder="Fish Price" />
                 <select ref="status">
@@ -165,6 +173,10 @@ var Order = React.createClass({
 /*
     Inventory
     <Inventory />
+
+    - in a later step, we passed the addFish function to Inventory using App.
+    - ** could've just done <AddFishForm addFish={addFish}.....but that gets hard to keep up with if you have multiple props you are passing down from App. the way around that is by using a SPREAD {...this.props}
+    what this ^^^ does is pass all props from Inventory on down to AddFishForm
 */
 
 var Inventory = React.createClass({
@@ -174,7 +186,7 @@ var Inventory = React.createClass({
             <div>
                 <h2>Inventory</h2>
 
-                <AddFishForm />
+                <AddFishForm {...this.props} />
             </div>
         )
     }
