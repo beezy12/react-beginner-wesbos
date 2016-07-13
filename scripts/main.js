@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom')
 var ReactRouter = require('react-router')
 var Router = ReactRouter.Router
 var Route = ReactRouter.Route
-var Navigation = ReactRouter.Navigation // this actually changed in a React update
+var Navigation = ReactRouter.Navigation // this is deprecated??
 var History = ReactRouter.History
 
 // npm history loads in the required code to be able to do push state (changing the URL without a reload)
@@ -15,7 +15,7 @@ var helpers = require('./helpers.js')
 
 
 /*
-    {} CURLY BRACKETS MEAN JAVASCRIPT
+    - {} CURLY BRACKETS MEAN JAVASCRIPT
     - 'this' refers to the component that it lives in
 */
 
@@ -24,6 +24,7 @@ var helpers = require('./helpers.js')
 
 /*
     App
+    this is the brains of the operation
 */
 
 var App = React.createClass({
