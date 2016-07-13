@@ -8,6 +8,11 @@ var Navigation = ReactRouter.Navigation
 // npm history loads in the required code to be able to do push state (changing the URL without a reload)
 var createBrowserHistory = require('history/lib/createBrowserHistory')
 
+var helpers = require('./helpers.js')
+
+
+
+/*   {} CURLY BRACKETS MEAN JAVASCRIPT
 
 /*
     App
@@ -104,7 +109,7 @@ var StorePicker = React.createClass({
             <form className="store-selector">
                  {/* this is how you write comments in JSX*/}
                 <h2>Please Enter A Store {name}</h2>
-                <input type="text" ref="storeId" required />
+                <input type="text" ref="storeId" defaultValue={helpers.getFunName()} required />
                 <input type="submit" />
             </form>
         )
@@ -147,7 +152,7 @@ var routes = (
     <Router history={createBrowserHistory()}>
         <Route path="/" component={StorePicker} />
         <Route path="/store/:storeId" component={App} />
-        <Route path="*" component={NotFound} />
+        <Route path="*" component={NotFound } />
     </Router>
 )
 
