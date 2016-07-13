@@ -17,10 +17,7 @@ var helpers = require('./helpers.js')
     - statet is a representation of all of your components data. it's one big object that holds
       all the information thats related to your component. it's the master copy of all of our data,
       and the HTML is based off of that.
-    - ** We don't change the HTML we change the state, and React will update the HTML accordingly.
-    - we are going to have two things in our state for this app:
-                .the list of all the different kinds of fish
-                .the order price and quantity
+    - ** We don't change the HTML we change the state, and React will update the HTML accordingly. if you have a title, and you change the state of the title, it will change that title everywhere.
     -
 
 */
@@ -35,11 +32,21 @@ var helpers = require('./helpers.js')
 
 /*
     App
+    <App />
     this is the brains of the operation
+
+        - we are going to have two things in our state for this app:
+                .the list of all the different kinds of fish
+                .the order price and quantity
 */
 
 var App = React.createClass({
-
+    getInitialState: function() {
+        return {
+            fishes: {},
+            order: {}
+        }
+    },
     render: function() {
         return (
             <div className="catch-of-the-day">
@@ -53,6 +60,46 @@ var App = React.createClass({
     }
 })
 
+
+/*
+    Add Fish Form
+    <AddFishForm />
+*/
+
+var AddFishForm = React.createClass({
+    createFish: function(event) {
+    // 1. stop the form from auto-submitting
+        event.preventDefault()
+
+    // 2. get the data from the form and create an object
+        var fish = {
+            name: this.refs.name.value,
+            price: this.refs.price.value,
+            status: this.refs.status.value,
+            desc: this.refs.description.value,
+            image: this.refs.image.value
+        }
+            console.log(fish)
+
+    // 3. add the fish to the App State (we're not worried about the fish state)
+
+    },
+    render: function() {
+        return (
+            <form className="fish-edit" onSubmit={this.createFish}>
+                <input type="text" ref="name" placeholder="Fish Name" />
+                <input type="text" ref="price" placeholder="Fish Price" />
+                <select ref="status">
+                    <option value="available">Fresh!</option>
+                    <option value="unavailable">SOLD OUT</option>
+                </select>
+                <textarea type="text" ref="description" placeholder="Description"></textarea>
+                <input type="text" ref="image" placeholder="URL for image" />
+                <button type="submit">+ add item</button>
+            </form>
+        )
+    }
+})
 
 
 /*
@@ -82,7 +129,7 @@ var Header = React.createClass({
 
 /*
     Order
-    <Order/>
+    <Order />
 */
 
 var Order = React.createClass({
@@ -97,14 +144,18 @@ var Order = React.createClass({
 
 /*
     Inventory
-    <Inventory/>
+    <Inventory />
 */
 
 var Inventory = React.createClass({
 
     render: function() {
         return (
-            <p>Inventory</p>
+            <div>
+                <h2>Inventory</h2>
+
+                <AddFishForm />
+            </div>
         )
     }
 })
@@ -114,6 +165,7 @@ var Inventory = React.createClass({
 
 /*
     - Store Picker
+      <StorePicker />
     - render says "what HTML do you want me to show?"
     - this code below will let me make <StorePicker />
     - render can only return one thing. like a form or a div but not multiple p tags
@@ -197,5 +249,6 @@ var routes = (
 
 
 ReactDOM.render(routes, document.querySelector('#main'))
+
 
 
