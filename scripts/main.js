@@ -12,7 +12,18 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 
 var helpers = require('./helpers.js')
 
+/*
+    video10 STATE
+    - statet is a representation of all of your components data. it's one big object that holds
+      all the information thats related to your component. it's the master copy of all of our data,
+      and the HTML is based off of that.
+    - ** We don't change the HTML we change the state, and React will update the HTML accordingly.
+    - we are going to have two things in our state for this app:
+                .the list of all the different kinds of fish
+                .the order price and quantity
+    -
 
+*/
 
 /*
     - {} CURLY BRACKETS MEAN JAVASCRIPT
