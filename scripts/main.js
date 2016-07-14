@@ -72,11 +72,22 @@ var App = React.createClass({
             fishes: require('./sample-fishes')
         })
     },
+    renderFish: function(key) {
+        return <li> Welcome {key} </li>
+    },
     render: function() {
         return (
             <div className="catch-of-the-day">
                 <div className ="menu">
                     <Header tagline="Fresh Seafood Market"/>
+                {/* need to loop over these...would used MAP but MAP only works on arrays.
+                    so we used Object.keys, this will give us an array of all the keys on fishes*/}
+                    <ul className="list-of-fishes">
+                {/* so getting the keys of every fish, running map, and what we want map to do
+                is run this.renderFish for every fish that we have in our state. makes a list of fishes */}
+                        {Object.keys(this.state.fishes).map(this.renderFish)}
+
+                    </ul>
                 </div>
                 <Order/>
                 <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />   {/* this gets passed down from <Inventory /> to <AddFishForm />    */}
