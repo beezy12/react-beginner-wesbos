@@ -107,7 +107,12 @@ var App = React.createClass({
 var Fish = React.createClass({
 
     render: function() {
-        return
+        var details = this.props.details  // did this to save up from having to write all this out
+        return (
+            <li class="menu-fish">
+                <img src={details.image} alt={details.name} />
+            </li>
+        )
     }
 })
 
@@ -319,6 +324,7 @@ var routes = (
 
 
 ReactDOM.render(routes, document.querySelector('#main'))
+
 
 
 
