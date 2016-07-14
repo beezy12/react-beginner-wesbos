@@ -109,8 +109,14 @@ var Fish = React.createClass({
     render: function() {
         var details = this.props.details  // did this to save up from having to write all this out
         return (
-            <li class="menu-fish">
+            <li className="menu-fish">
                 <img src={details.image} alt={details.name} />
+                <h3 className="fish-name">
+                    {details.name}
+
+                    <span className="price">{helpers.formatPrice(details.price)}</span>
+                </h3>
+                <p>{details.desc}</p>
             </li>
         )
     }
