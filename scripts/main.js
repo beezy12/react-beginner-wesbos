@@ -12,15 +12,15 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 
 var helpers = require('./helpers.js')
 
+
 /*
     video10 STATE
     - state is a representation of all of your components data. it's one big object that holds
       all the information thats related to your component. it's the master copy of all of our data,
       and the HTML is based off of that.
     - ** We don't change the HTML we change the state, and React will update the HTML accordingly. if you have a title, and you change the state of the title, it will change that title everywhere.
-    -
-
 */
+
 
 /*
     - {} CURLY BRACKETS MEAN JAVASCRIPT
@@ -36,8 +36,8 @@ var helpers = require('./helpers.js')
     this is the brains of the operation
 
     - we are going to have two things in our state for this app:
-            .the list of all the different kinds of fish
-            .the order price and quantity
+            the list of all the different kinds of fish
+            the order price and quantity
 
     - getInitialState returns the initial state, which here is the blank fishes and order objects.
     IT IS PART OF THE REACT LIFECYCLE, WHICH MEANS THAT BEFORE THE COMPONENT IS LOADED, REACT WILL RUN getInitialState AND IT WILL POPULATE ITSELF WITH ANYTHING THAT IS IN THERE
@@ -45,8 +45,8 @@ var helpers = require('./helpers.js')
     - then you will need a method that can add fish to the state. addFish method.
     - we need a unique key for every fish in the fishes object, so we are adding a timestamp. this
     will also put the newest fish at the top of the list.
-
 */
+
 
 var App = React.createClass({
     getInitialState: function() {
@@ -67,6 +67,11 @@ var App = React.createClass({
         // this IS weird because you tell it to set state and pass it itself. it's for performance
         this.setState({fishes: this.state.fishes})
     },
+    loadSamples: function() {
+        this.setState({
+            fishes: require('./sample-fishes')
+        })
+    },
     render: function() {
         return (
             <div className="catch-of-the-day">
@@ -74,57 +79,8 @@ var App = React.createClass({
                     <Header tagline="Fresh Seafood Market"/>
                 </div>
                 <Order/>
-                <Inventory addFish={this.addFish}/>
+                <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />   {/* this gets passed down from <Inventory /> to <AddFishForm />    */}
             </div>
-        )
-    }
-})
-
-
-/*
-    Add Fish Form
-    <AddFishForm />
-*/
-
-var AddFishForm = React.createClass({
-    createFish: function(event) {
-        // 1. stop the form from auto-submitting
-            event.preventDefault()
-
-        // 2. get the data from the form and create an object
-            var fish = {
-                name: this.refs.name.value,
-                price: this.refs.price.value,
-                status: this.refs.status.value,
-                desc: this.refs.description.value,
-                image: this.refs.image.value
-            }
-                console.log(fish)
-
-
-        // 3. add the fish to the App State (we're not worried about the fish state)
-
-        // look at dev tools. the method addFish lives in App, which is the parent. so we must pass it
-        // down from App to Inventory, and then from Inventory to AddFishForm. (Inventory is the     parent of AddFishForm).
-        // you'll see in App we add this method to Inventory, and then used a spread to get it to <AddFishForm /> in Inventory
-        // this was the last step. enter some info in the website, check React dev tools, click down to App, click on it and see the states to the right. you can see your fish. check Inventory in dev tools to see the prop addFish function.
-        this.props.addFish(fish)
-        this.refs.fishForm.reset // clears the form after submission
-    },
-
-    render: function() {
-        return (
-            <form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
-                <input type="text" ref="name" placeholder="Fish Name" />
-                <input type="text" ref="price" placeholder="Fish Price" />
-                <select ref="status">
-                    <option value="available">Fresh!</option>
-                    <option value="unavailable">SOLD OUT</option>
-                </select>
-                <textarea type="text" ref="description" placeholder="Description"></textarea>
-                <input type="text" ref="image" placeholder="URL for image" />
-                <button type="submit">+ add item</button>
-            </form>
         )
     }
 })
@@ -186,8 +142,58 @@ var Inventory = React.createClass({
             <div>
                 <h2>Inventory</h2>
 
-                <AddFishForm {...this.props} />
+                <AddFishForm {...this.props} />   {/* SPREAD */}
+                <button onClick={this.props.loadSamples}>Load Sample Fishes</button>
             </div>
+        )
+    }
+})
+
+
+/*
+    Add Fish Form
+    <AddFishForm />
+*/
+
+var AddFishForm = React.createClass({
+    createFish: function(event) {
+        // 1. stop the form from auto-submitting
+        event.preventDefault()
+
+        // 2. get the data from the form and create an object
+        var fish = {
+            name: this.refs.name.value,
+            price: this.refs.price.value,
+            status: this.refs.status.value,
+            desc: this.refs.description.value,
+            image: this.refs.image.value
+        }
+            console.log(fish)
+
+
+        // 3. add the fish to the App State (we're not worried about the fish state)
+
+        // look at dev tools. the method addFish lives in App, which is the parent. so we must pass it
+        // down from App to Inventory, and then from Inventory to AddFishForm. (Inventory is the     parent of AddFishForm).
+        // you'll see in App we add this method to Inventory, and then used a spread to get it to <AddFishForm /> in Inventory
+        // this was the last step. enter some info in the website, check React dev tools, click down to App, click on it and see the states to the right. you can see your fish. check Inventory in dev tools to see the prop addFish function.
+        this.props.addFish(fish)
+        this.refs.fishForm.reset // clears the form after submission
+    },
+
+    render: function() {
+        return (
+            <form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
+                <input type="text" ref="name" placeholder="Fish Name" />
+                <input type="text" ref="price" placeholder="Fish Price" />
+                <select ref="status">
+                    <option value="available">Fresh!</option>
+                    <option value="unavailable">SOLD OUT</option>
+                </select>
+                <textarea type="text" ref="description" placeholder="Description"></textarea>
+                <input type="text" ref="image" placeholder="URL for image" />
+                <button type="submit">+ add item</button>
+            </form>
         )
     }
 })
@@ -215,19 +221,19 @@ var StorePicker = React.createClass({
         // get the data (the store id)from the input and then...
         console.log(this.refs)
         console.log(this.refs.storeId)
+
         var storeId = this.refs.storeId.value
+
         console.log(storeId)
 
         // redirect to the store page
         // pushState lets you change the URL without refreshing the page
-        // (we got a console error 'cannot read property "pushState" of undefined'. this is because we need to use a mixin)
+        // (we got a console error 'cannot read property "pushState" of undefined'. this is because we need to use a mixin. we include the History mixin above)
         this.history.pushState(null, '/store/' + storeId)
-
-
     },
-    render: function() {
 
-    var name = 'beez'
+    render: function() {
+        var name = 'beez'
         return (
             <form className="store-selector" onSubmit={this.goToStore}>
                  {/* this is how you write comments in JSX*/}
@@ -237,13 +243,16 @@ var StorePicker = React.createClass({
             </form>
         )
     }
-
 })
+
 
 
 
 /*
     Not Found component
+    <NotFound />
+
+    this handles an error in the URL
 */
 
 var NotFound = React.createClass({
@@ -275,12 +284,16 @@ var routes = (
     <Router history={createBrowserHistory()}>
         <Route path="/" component={StorePicker} />
         <Route path="/store/:storeId" component={App} />
-        <Route path="*" component={NotFound } />
+        <Route path="*" component={NotFound} />
     </Router>
 )
 
 
 ReactDOM.render(routes, document.querySelector('#main'))
+
+
+
+
 
 
 
