@@ -73,7 +73,9 @@ var App = React.createClass({
         })
     },
     renderFish: function(key) {
-        return <li> Welcome {key} </li>
+        return <Fish key={key} index={key} details={this.state.fishes[key]} />
+        /*** whenever you render out an element in React, you need to give it a key property, and that key needs to be unique, because React needs to be able to track it. when there's a change to a particular fish, it knows which element to update and render out while leaving the rest of them untouched.
+        the reason we used index={key} is because you can't access key={key} inside a component????  */
     },
     render: function() {
         return (
@@ -84,7 +86,7 @@ var App = React.createClass({
                     so we used Object.keys, this will give us an array of all the keys on fishes*/}
                     <ul className="list-of-fishes">
                 {/* so getting the keys of every fish, running map, and what we want map to do
-                is run this.renderFish for every fish that we have in our state. makes a list of fishes */}
+                is run this.renderFish for every fish that we have in our state. we need a list, but we are making a new Fish component card, in case we need to use it elsewhere*/}
                         {Object.keys(this.state.fishes).map(this.renderFish)}
 
                     </ul>
@@ -95,6 +97,22 @@ var App = React.createClass({
         )
     }
 })
+
+
+/*
+    Fish
+    <Fish />
+*/
+
+var Fish = React.createClass({
+
+    render: function() {
+        return
+    }
+})
+
+
+
 
 
 /*
