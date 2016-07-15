@@ -82,6 +82,7 @@ var App = React.createClass({
             <div className="catch-of-the-day">
                 <div className ="menu">
                     <Header tagline="Fresh Seafood Market"/>
+
                 {/* need to loop over these...would used MAP but MAP only works on arrays.
                     so we used Object.keys, this will give us an array of all the keys on fishes*/}
                     <ul className="list-of-fishes">
@@ -107,7 +108,7 @@ var App = React.createClass({
 var Fish = React.createClass({
 
     render: function() {
-        var details = this.props.details  // did this to save up from having to write all this out
+        var details = this.props.details  // this saves time from having to write all this out
         return (
             <li className="menu-fish">
                 <img src={details.image} alt={details.name} />
@@ -171,7 +172,7 @@ var Order = React.createClass({
     <Inventory />
 
     - in a later step, we passed the addFish function to Inventory using App.
-    - ** could've just done <AddFishForm addFish={addFish}.....but that gets hard to keep up with if you have multiple props you are passing down from App. the way around that is by using a SPREAD {...this.props}
+    - ** could've just done <AddFishForm addFish={addFish}.....but that gets hard to keep up with if you have multiple props you are passing down from App, and here we're passing from App to Inventory to AddFishForm. the way around that is by using a SPREAD {...this.props}
     what this ^^^ does is pass all props from Inventory on down to AddFishForm
 */
 
@@ -254,7 +255,9 @@ var AddFishForm = React.createClass({
 */
 
 var StorePicker = React.createClass({
+
     mixins: [History],
+
     goToStore: function(event) {
         event.preventDefault()
 
@@ -284,9 +287,6 @@ var StorePicker = React.createClass({
         )
     }
 })
-
-
-
 
 /*
     Not Found component
