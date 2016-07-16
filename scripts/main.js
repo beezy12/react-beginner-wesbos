@@ -109,6 +109,7 @@ var Fish = React.createClass({
 
     render: function() {
         var details = this.props.details  // this saves time from having to write all this out
+        var isAvailable = (details.status === 'available' ? true : false)
         return (
             <li className="menu-fish">
                 <img src={details.image} alt={details.name} />
