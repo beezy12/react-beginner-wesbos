@@ -108,6 +108,10 @@ var App = React.createClass({
 
 var Fish = React.createClass({
 
+    onButtonClick: function() {
+        console.log('going to add this fish by grabbing its index: ', this.props.index)
+    },
+
     render: function() {
         var details = this.props.details  // this saves time from having to write all this out
         console.log('fish details:', details)
@@ -126,7 +130,7 @@ var Fish = React.createClass({
                 </h3>
                 <p>{details.desc}</p>
                 {/* if it's not Available it will set the 'disabled' attribute, otherwise React just takes out the disabled attribute altogether */}
-                <button disabled={!isAvailable}>{buttonText}</button>
+                <button disabled={!isAvailable} onClick={this.onButtonClick}>{buttonText}</button>
             </li>
         )
     }
