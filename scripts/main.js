@@ -100,6 +100,7 @@ var App = React.createClass({
 })
 
 
+
 /*
     Fish
     <Fish />
@@ -109,7 +110,12 @@ var Fish = React.createClass({
 
     render: function() {
         var details = this.props.details  // this saves time from having to write all this out
+        console.log('fish details:', details)
+
         var isAvailable = (details.status === 'available' ? true : false)
+        // this depends on the dropdown in the <AddFishForm /> component
+        var buttonText = (isAvailable ? 'Add To Oredr' : 'SOLD OUT!')
+
         return (
             <li className="menu-fish">
                 <img src={details.image} alt={details.name} />
@@ -119,6 +125,8 @@ var Fish = React.createClass({
                     <span className="price">{helpers.formatPrice(details.price)}</span>
                 </h3>
                 <p>{details.desc}</p>
+                {/* if it's not Available it will set the 'disabled' attribute, otherwise React just takes out the disabled attribute altogether */}
+                <button disabled={!isAvailable}>{buttonText}</button>
             </li>
         )
     }
