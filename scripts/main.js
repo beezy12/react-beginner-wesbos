@@ -55,6 +55,10 @@ var App = React.createClass({
             order: {}
         }
     },
+    addToOrder: function(key) {
+        // ** we had to use [key] notation instead of .key because key is a variable ???
+        this.state.order[key] = this.state.order[key] + 1 || 1
+    },
     addFish: function(fish) {
         var timestamp = (new Date()).getTime()
 
@@ -110,6 +114,7 @@ var Fish = React.createClass({
 
     onButtonClick: function() {
         console.log('going to add this fish by grabbing its index: ', this.props.index)
+        // **** so now that we can grab the index, we need to get it to the 'order' component, which lives in the 'App' component. the way to grab this data is to make a function in App that can get it. we made the addToOrder function in App
     },
 
     render: function() {
