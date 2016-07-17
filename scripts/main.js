@@ -58,6 +58,10 @@ var App = React.createClass({
     addToOrder: function(key) {
         // ** we had to use [key] notation instead of .key because key is a variable ???
         this.state.order[key] = this.state.order[key] + 1 || 1
+        // HTML won't update until I call setState
+        this.setState = ({ order: this.state.order })
+        // now for this to work we have to add it to the <Fish component />
+        // this is strange because the buttonclick happens in Fish but we are setting the state up here in the main App component. so we are adding the method in here in App below in the renderFish function, we added this.addToOrder below....which makes that method now available in the Fish component
     },
     addFish: function(fish) {
         var timestamp = (new Date()).getTime()
@@ -77,7 +81,7 @@ var App = React.createClass({
         })
     },
     renderFish: function(key) {
-        return <Fish key={key} index={key} details={this.state.fishes[key]} />
+        return <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />
         /*** whenever you render out an element in React, you need to give it a key property, and that key needs to be unique, because React needs to be able to track it. when there's a change to a particular fish, it knows which element to update and render out while leaving the rest of them untouched.
         the reason we used index={key} is because you can't access key={key} inside a component????  */
     },
@@ -114,7 +118,12 @@ var Fish = React.createClass({
 
     onButtonClick: function() {
         console.log('going to add this fish by grabbing its index: ', this.props.index)
-        // **** so now that we can grab the index, we need to get it to the 'order' component, which lives in the 'App' component. the way to grab this data is to make a function in App that can get it. we made the addToOrder function in App
+        // **** so now that we can grab the index, we need to get it to the 'order' component, which lives in the 'App' component. the way to grab this data is to make a function in App that can get it. we made the addToOrder function in App...
+
+        // ...so after doing that, we can now do this....
+        this.props.addToOrder(this.props.index)
+        // AWESOME stuff here. you can see in React dev tools the number of fish being added. we will now start video 14 where we will use this data to display the total cost in the middle order box
+
     },
 
     render: function() {
@@ -123,7 +132,7 @@ var Fish = React.createClass({
 
         var isAvailable = (details.status === 'available' ? true : false)
         // this depends on the dropdown in the <AddFishForm /> component
-        var buttonText = (isAvailable ? 'Add To Oredr' : 'SOLD OUT!')
+        var buttonText = (isAvailable ? 'Add To Order' : 'SOLD OUT!')
 
         return (
             <li className="menu-fish">
