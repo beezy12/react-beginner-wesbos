@@ -100,7 +100,7 @@ var App = React.createClass({
 
                     </ul>
                 </div>
-                <Order/>
+                <Order fishes={this.state.fishes} order={this.state.order} />
                 <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />   {/* this gets passed down from <Inventory /> to <AddFishForm />    */}
             </div>
         )
@@ -187,8 +187,31 @@ var Header = React.createClass({
 var Order = React.createClass({
 
     render: function() {
+        var orderIDs = Object.keys(this.props.order)
+
+        var total = orderIDs.reduce((prevTotal, key) => {
+            var fish = this.props.fishes[key]
+            var count = this.props.order[key] // returns the fish counter number
+            var isAvailable = fish && fish.status === 'available'  // first make sure fish is there and hasn't been there but then deleted
+
+            if(fish && isAvailable) {
+                // parseInt returns a real number of fish price, times the number count ordered, plus what they had previously ordered (prevTotal)
+                return prevTotal + (count * parseInt(fish.price) || 0)
+            }
+
+            return prevTotal
+        }, 0) // 0 here is the starting number for prevTotal
+
         return (
-            <p>Order</p>
+            <div className="order-wrap">
+                <h2 className="order-title">Your Order</h2>
+                <ul className="order">
+                    <li className="total">
+                        <strong>Total:</strong>
+                        {helpers.formatPrice(total)}
+                    </li>
+                </ul>
+            </div>
         )
     }
 })
