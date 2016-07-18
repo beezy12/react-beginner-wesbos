@@ -59,7 +59,7 @@ var App = React.createClass({
         // ** we had to use [key] notation instead of .key because key is a variable ???
         this.state.order[key] = this.state.order[key] + 1 || 1
         // HTML won't update until I call setState
-        this.setState = ({ order: this.state.order })
+        this.setState({ order: this.state.order })
         // now for this to work we have to add it to the <Fish component />
         // this is strange because the buttonclick happens in Fish but we are setting the state up here in the main App component. so we are adding the method in here in App below in the renderFish function, we added this.addToOrder below....which makes that method now available in the Fish component
     },
