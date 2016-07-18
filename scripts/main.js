@@ -100,7 +100,7 @@ var App = React.createClass({
 
                     </ul>
                 </div>
-                <Order/>
+                <Order fishes={this.state.fishes} order={this.state.order} />
                 <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />   {/* this gets passed down from <Inventory /> to <AddFishForm />    */}
             </div>
         )
@@ -188,7 +188,10 @@ var Order = React.createClass({
 
     render: function() {
         return (
-            <p>Order</p>
+            <div className="order-wrap">
+                <h2 className="order-title">Your Order</h2>
+                <ul className="order"></ul>
+            </div>
         )
     }
 })
