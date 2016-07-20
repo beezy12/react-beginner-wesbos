@@ -80,7 +80,7 @@ var App = React.createClass({
             fishes: require('./sample-fishes')
         })
     },
-    renderFish: function(key) {
+    renderFish: function(key) { // renderFish function just populates the left side of the page with fish
         return <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />
         /*** whenever you render out an element in React, you need to give it a key property, and that key needs to be unique, because React needs to be able to track it. when there's a change to a particular fish, it knows which element to update and render out while leaving the rest of them untouched.
         the reason we used index={key} is because you can't access key={key} inside a component????  */
@@ -128,7 +128,7 @@ var Fish = React.createClass({
 
     render: function() {
         var details = this.props.details  // this saves time from having to write all this out
-        console.log('fish details:', details)
+        // console.log('fish details:', details)
 
         var isAvailable = (details.status === 'available' ? true : false)
         // this depends on the dropdown in the <AddFishForm /> component
@@ -186,8 +186,28 @@ var Header = React.createClass({
 
 var Order = React.createClass({
 
+    renderOrder: function(key) {
+
+        var fish = this.props.fishes[key]  // ****use square brackets because key is dynamic
+        var count = this.props.order[key]
+
+        if(!fish) {     // key={key} is only there for some animation?? that he mentioned
+            return <li key={key}>Sorry, the fish is no longer available</li>
+
+        }
+            // ....otherwise
+            return(
+            <li>
+                {count}lbs
+                {fish.name}
+                <span className="price">{helpers.formatPrice(count * fish.price)}</span>
+            </li>
+            )
+    },
+
     render: function() {
         var orderIDs = Object.keys(this.props.order)
+        console.log('orderIDs heeeeeer', orderIDs)  // IDs are: ["fish1", "fish3"] and so on
 
         var total = orderIDs.reduce((prevTotal, key) => {
             var fish = this.props.fishes[key]
@@ -206,6 +226,7 @@ var Order = React.createClass({
             <div className="order-wrap">
                 <h2 className="order-title">Your Order</h2>
                 <ul className="order">
+                    {orderIDs.map(this.renderOrder)}
                     <li className="total">
                         <strong>Total:</strong>
                         {helpers.formatPrice(total)}
@@ -259,7 +280,8 @@ var AddFishForm = React.createClass({
             desc: this.refs.description.value,
             image: this.refs.image.value
         }
-            console.log(fish)
+
+        console.log(fish)
 
 
         // 3. add the fish to the App State (we're not worried about the fish state)
@@ -301,7 +323,7 @@ var AddFishForm = React.createClass({
     - MUST HAVE self closing tags
     - preventDefault stops the form from submitting the data and refreshing the page
     - mixins will always be an array
-    - pushState is when you change the URL
+    - pushState is when you change the URL without refreshing the page
 */
 
 var StorePicker = React.createClass({
@@ -337,6 +359,8 @@ var StorePicker = React.createClass({
         )
     }
 })
+
+
 
 /*
     Not Found component
