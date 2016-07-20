@@ -196,11 +196,13 @@ var Order = React.createClass({
 
         }
             // ....otherwise
-            return
-            (<li>
-                <span>{count}</span>lbs
+            return(
+            <li>
+                {count}lbs
                 {fish.name}
-            </li>)
+                <span className="price">{count * fish.price}</span>
+            </li>
+            )
     },
 
     render: function() {
