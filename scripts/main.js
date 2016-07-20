@@ -191,9 +191,16 @@ var Order = React.createClass({
         var fish = this.props.fishes[key]  // ****use square brackets because key is dynamic
         var count = this.props.order[key]
 
-        return (<li>
+        if(!fish) {     // key={key} is only there for some animation?? that he mentioned
+            return <li key={key}>Sorry, the fish is no longer available</li>
 
-        </li>)
+        }
+            // ....otherwise
+            return
+            (<li>
+                <span>{count}</span>lbs
+                {fish.name}
+            </li>)
     },
 
     render: function() {
