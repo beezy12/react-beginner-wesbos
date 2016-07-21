@@ -30,7 +30,9 @@
       "no-empty": 0,
       "no-constant-condition": 0,
       "no-cond-assign": 0,
-      "no-unreachable": 0
+      "no-unreachable": 0,
+      "no-func-assign": 0,
+      "no-unexpected-multiline": 0
     },
     "parserOptions": {
       "ecmaVersion": 6,

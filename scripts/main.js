@@ -16,7 +16,7 @@ var helpers = require('./helpers.js')
 var Rebase = require('re-base')
 // this is how you connect this React project to Firebase. this is a ref to the database
 var base = Rebase.createClass('https://catch-of-the-day-75c3d.firebaseio.com/')
-
+console.log('base:', base)
 
 /*
     video10 STATE
@@ -59,6 +59,12 @@ var App = React.createClass({
             fishes: {},
             order: {}
         }
+    },
+    componentDidMount: function() {     // fires on app load
+        console.log('component did mount')
+
+        // base is ref to firebase. syncState connects our React state (fishes, order) to the one in Firebase. so all this happens on page load because of componentDidMount
+        base.syncState()
     },
     addToOrder: function(key) {
         // ** we had to use [key] notation instead of .key because key is a variable ???
