@@ -12,6 +12,11 @@ var createBrowserHistory = require('history/lib/createBrowserHistory')
 
 var helpers = require('./helpers.js')
 
+// FIREBASE
+var Rebase = require('re-base')
+// this is how you connect this React project to Firebase. this is a ref to the database
+var base = Rebase.createClass('https://catch-of-the-day-75c3d.firebaseio.com/')
+
 
 /*
     video10 STATE
