@@ -15,8 +15,8 @@ var helpers = require('./helpers.js')
 // FIREBASE
 var Rebase = require('re-base')
 // this is how you connect this React project to Firebase. this is a ref to the database
-var base = Rebase.createClass('https://catch-of-the-day-75c3d.firebaseio.com/')
-console.log('base:', base)
+var base = Rebase.createClass('https://catch-o-da-day.firebaseio.com/')
+console.log('base:',   base)
 
 /*
     video10 STATE
