@@ -64,7 +64,7 @@ var App = React.createClass({
         console.log('component did mount')
 
         // base is ref to firebase. syncState connects our React state (fishes, order) to the one in Firebase. so all this happens on page load because of componentDidMount
-        base.syncState()
+        base.syncState() // this is the part that's giving me issues
     },
     addToOrder: function(key) {
         // ** we had to use [key] notation instead of .key because key is a variable ???
