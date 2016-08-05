@@ -65,7 +65,7 @@ var App = React.createClass({
 
         // base is ref to firebase. syncState connects our React state (fishes, order) to the one in Firebase. so all this happens on page load because of componentDidMount
 
-        base.syncState(this.props.params.storeId + '/fishes', {
+        base.syncState(this.props.params.storeId + '/fishes',{
             context : this,
             state : 'fishes'
         })
