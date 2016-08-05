@@ -54,7 +54,8 @@ console.log('base:',   base)
 
 // persisting states in Firebase after vid 12. this means that if the page reloads we will not lose everything. so just finished persisting the fishes state in firebase, but on vid 13 about to persist the order state by using HTML5's Local Storage.
 
-// need to update state in firebase any
+// updating firebase any time a component changes by using 'componentWillUpdate'....which runs the componentDidMount any time a state or data changes
+
 var App = React.createClass({
     getInitialState: function() {
         return {
@@ -71,6 +72,9 @@ var App = React.createClass({
             context : this,
             state : 'fishes'
         })
+    },
+    componentWillUpdate: function(nextProps, nextState) {
+        console.log(nextState)
     },
     addToOrder: function(key) {
         // ** we had to use [key] notation instead of .key because key is a variable ???
