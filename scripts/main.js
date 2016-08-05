@@ -52,7 +52,9 @@ console.log('base:',   base)
     will also put the newest fish at the top of the list.
 */
 
+// persisting states in Firebase after vid 12. this means that if the page reloads we will not lose everything. so just finished persisting the fishes state in firebase, but on vid 13 about to persist the order state by using HTML5's Local Storage.
 
+// need to update state in firebase any
 var App = React.createClass({
     getInitialState: function() {
         return {
